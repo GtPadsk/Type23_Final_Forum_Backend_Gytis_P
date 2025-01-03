@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid"
+import { v4 as uuidv4 } from "uuid";
 import forumModel from "../model/forum.js";
 
 let forum_questions = []
@@ -34,5 +34,4 @@ const POST_QUESTION = async (req, res) => {
 
 export {
     POST_QUESTION,
-
 }

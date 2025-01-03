@@ -3,7 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./src/route/user.js";
-import forumRouter from "./src/route/forum.js";
+import forumRouter from "./src/route/forum.js"
+import bodyParser from "body-parser";
 
 dotenv.config()
 
@@ -14,10 +15,11 @@ app.use(cors({
     credentials: true,
 }))
 
+app.use(bodyParser.json());
 app.use(express.json())
 
 mongoose
-    .connect(`${process.env.MONGO_URL}`)
+    .connect(`${process.env.MONGO_CONNECTION}`)
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => {
         console.log(err)

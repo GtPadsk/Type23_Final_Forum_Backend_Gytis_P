@@ -1,5 +1,4 @@
 import express from "express";
-// import auth from "../middleware/auth.js";
 
 import {
     POST_QUESTION,
@@ -9,3 +8,5 @@ import {
 const router = express.Router();
 
 router.post("/question", POST_QUESTION);
+
+export default router;
