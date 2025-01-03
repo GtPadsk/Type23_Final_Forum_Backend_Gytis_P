@@ -1,0 +1,11 @@
+import express from "express";
+// import auth from "../middleware/auth.js";
+
+import {
+    POST_QUESTION,
+} from "../controller/forum.js"
+
+
+const router = express.Router();
+
+router.post("/question", POST_QUESTION);
