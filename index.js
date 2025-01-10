@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./src/route/user.js";
-import forumRouter from "./src/route/forum.js"
+import questionRouter from "./src/route/question.js"
 import bodyParser from "body-parser";
 
 dotenv.config()
@@ -26,7 +26,7 @@ mongoose
     })
 
 app.use(userRouter)
-app.use(forumRouter)
+app.use(questionRouter)
 
 app.use((req, res) => {
     res.status(404).json({ message: "your endpoint does not exist" })

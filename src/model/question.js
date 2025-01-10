@@ -1,23 +1,26 @@
 
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const questionSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-
-    question_title: {
-        type: String,
+    date: {
+        type: Date,
         required: true
     },
     question_text: {
         type: String,
         required: true
+    },
+    userId: {
+        type: String,
+        required: true
     }
-
 }
     ,
     { timestamps: true });
 
-export default mongoose.model("Forum", userSchema);
+export default mongoose.model("question", questionSchema);
