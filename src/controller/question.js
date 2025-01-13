@@ -4,7 +4,8 @@ import questionModel from "../model/question.js";
 
 const GET_QUESTIONS = async (req, res) => {
     try {
-        const questions = await questionModel.find({ userId: req.body.userId })
+        const questions = await questionModel.find()
+        console.log("Questions retrieved from DB:", questions);
         return res.status(200).json({ questions: questions })
     } catch (err) {
         console.log(err)

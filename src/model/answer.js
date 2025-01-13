@@ -19,7 +19,7 @@ const answerSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    questrion_id: {
+    question_id: {
         type: String,
         required: true
     }

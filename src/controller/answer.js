@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import questionModel from "../model/question.js";
 import answerModel from "../model/answer.js";
-import mongoose from "mongoose";
 
 const GET_ANSWERS = async (req, res) => {
     try {
@@ -27,31 +26,38 @@ const POST_ANSWER = async (req, res) => {
             return res.status(400).json({ message: "Answer text is required" });
         }
 
-        const questionId = mongoose.Types.ObjectId(req.params.id)
-        const question = await questionModel.findById(questionId)
+        const { id } = req.params;
+        console.log("Received ID:", id);
+
+        try {
+
+            const question = await questionModel.findOne({
+                $or: [{ _id: id }, { id: id }]
+            })
+            console.log("Question found:", question);
+
+            if (!question) {
+                return res.status(404).json({ message: "Question not found" });
+            }
+
+            const newAnswer = {
+                id: uuidv4(),
+                answer_text: req.body.answer_text,
+                date: Date(),
+                gained_likes_number: 0,
+                question_id: id
+            }
+
+            const response = await answerModel.create(newAnswer)
+            console.log("Answer created:", response);
 
 
-        if (!question) {
-            return res.status(404).json({ message: "Question not found" });
+            return res.status(201).json({ response: "Answer added successfully", answer: response })
         }
-
-        const newAnswer = {
-            id: uuidv4(),
-            answer_text: req.body.answer_text,
-            date: new Date().toISOString(),
-            gained_likes_number: 0,
-            question_id: req.params.id
+        catch (error) {
+            console.log("Error during ObjectId conversion or query:", error)
+            return res.status(400).json({ message: "Invalid question ID format", error: error.message })
         }
-
-        if (!Array.isArray(question.answers)) {
-            question.answers = [];
-        }
-
-        question.answers.push(newAnswer)
-        const response = await question.save()
-
-        return res.status(201).json({ response: "Answer added successfully", answer: response })
-
     } catch (err) {
         console.log("Error adding answer:", err)
         return res.status(500).json({ message: "Some problems occured", error: err.message })
