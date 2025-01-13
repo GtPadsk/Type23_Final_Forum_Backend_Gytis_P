@@ -4,14 +4,15 @@ import mongoose from "mongoose";
 const answerSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     answer_text: {
         type: String,
         required: true
     },
     date: {
-        type: Date().toISOString(),
+        type: Date,
         required: true
     },
     gained_likes_number: {

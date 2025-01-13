@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./src/route/user.js";
 import questionRouter from "./src/route/question.js"
+import answerRouter from "./src/route/answer.js"
 import bodyParser from "body-parser";
 
 dotenv.config()
@@ -27,6 +28,7 @@ mongoose
 
 app.use(userRouter)
 app.use(questionRouter)
+app.use(answerRouter)
 
 app.use((req, res) => {
     res.status(404).json({ message: "your endpoint does not exist" })

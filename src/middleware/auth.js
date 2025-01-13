@@ -2,20 +2,24 @@ import jwt from "jsonwebtoken";
 
 
 const authUser = (req, res, next) => {
-    const token = req.headers.authorization
+    const authHeader = req.headers.authorization
 
-    if (!token) {
-        return res.status(401).json({ message: "no token found" })
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Authentication required' });
     }
+
+    const token = authHeader.split(' ')[1]
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-            return res.status(401).json({ message: "bad auth token" })
+            return res.status(401).json({ message: "Invalid or expired token" })
         }
 
-        req.body.userId = decoded.id
-        req.body.userEmail = decoded.email
-        req.body.userPassword = decoded.password
+        req.user = {
+            id: decoded.id,
+            email: decoded.email,
+            password: decoded.password
+        }
 
         next()
     })

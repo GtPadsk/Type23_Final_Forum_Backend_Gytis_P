@@ -1,11 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
 import questionModel from "../model/question.js";
 
-let questions = []
 
 const GET_QUESTIONS = async (req, res) => {
     try {
-        questions = await questionModel.find({ userId: req.body.userId })
+        const questions = await questionModel.find({ userId: req.body.userId })
         return res.status(200).json({ questions: questions })
     } catch (err) {
         console.log(err)
@@ -18,6 +17,7 @@ const POST_QUESTION = async (req, res) => {
     try {
 
         console.log('Request body:', req.body);
+
 
         const userId = req.user.id;
         if (!userId) {
@@ -34,13 +34,6 @@ const POST_QUESTION = async (req, res) => {
         }
 
         console.log('New question object:', newQuestion);
-
-        // const isQuestionExists = questions.some((question) =>
-        //     question.question_title === req.body.question_title)
-
-        // if (isQuestionExists) {
-        //     return res.status(400).json({ message: "Question already exists" })
-        // }
 
         const question = new questionModel(newQuestion)
         const response = await question.save()

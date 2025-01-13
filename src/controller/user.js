@@ -6,6 +6,10 @@ import userModel from "../model/user.js";
 const REGISTER = async (req, res) => {
 
     try {
+        if (!req.body.email || !req.body.name || !req.body.password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
 
@@ -25,7 +29,7 @@ const REGISTER = async (req, res) => {
             .json({ response: "User added successfully", user: response });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "Some problems occured" });
+        return res.status(500).json({ message: "Some problems occured", error: err.message });
     }
 }
 
