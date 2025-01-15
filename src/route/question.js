@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.get("/questions", authUser, GET_QUESTIONS);
+router.get("/question", authUser, GET_QUESTIONS);
 router.post("/question", authUser, POST_QUESTION);
 router.delete("/question/:id", authUser, DELETE_QUESTION)
 

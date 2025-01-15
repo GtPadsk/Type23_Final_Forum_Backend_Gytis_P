@@ -11,24 +11,18 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors({
-    origin: (`${process.env.PORT_PATH}:${process.env.PORT}`),
-    credentials: true,
-}))
-
+app.use(cors())
 app.use(bodyParser.json());
 app.use(express.json())
 
 mongoose
     .connect(`${process.env.MONGO_CONNECTION}`)
     .then(() => console.log("Connected to MongoDB"))
-    .catch((err) => {
-        console.log(err)
-    })
+    .catch((err) => { console.log(err) })
 
-app.use(userRouter)
-app.use(questionRouter)
-app.use(answerRouter)
+app.use('/user', userRouter)
+app.use('/questions', questionRouter)
+app.use('/answers', answerRouter)
 
 app.use((req, res) => {
     res.status(404).json({ message: "your endpoint does not exist" })
