@@ -21,7 +21,7 @@ mongoose
     .catch((err) => { console.log(err) })
 
 app.use('/user', userRouter)
-app.use('/questions', questionRouter)
+app.use('/question', questionRouter)
 app.use('/answers', answerRouter)
 
 app.use((req, res) => {
