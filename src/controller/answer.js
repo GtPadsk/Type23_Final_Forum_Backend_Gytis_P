@@ -1,21 +1,27 @@
 import { v4 as uuidv4 } from "uuid";
+import mongoose from "mongoose";
 import questionModel from "../model/question.js";
 import answerModel from "../model/answer.js";
 
 const GET_ANSWERS = async (req, res) => {
+    console.log("Fetching answers for question ID:", req.params.id)
     try {
-
-        const question = await questionModel.findById(req.params.id)
+        const question = await questionModel.findById(req.params.id);
         if (!question) {
             return res.status(404).json({ message: "Question not found" });
         }
 
-        const answers = await answerModel.find({ question_id: req.params.id })
-        return res.status(200).json({ answers: answers })
+        const answers = await answerModel.find({
+            question_id: mongoose.Types.ObjectId(req.params.id)
+        });
+        if (!answers || answers.length === 0) {
+            return res.status(404).json({ message: "No answers found for this question." })
+        }
 
+        return res.status(200).json({ answers })
     } catch (err) {
         console.log(err)
-        return res.status(500).json({ message: "Some problems occured" })
+        return res.status(500).json({ message: "Error occurred while fetching answers.", error: err.message })
     }
 }
 

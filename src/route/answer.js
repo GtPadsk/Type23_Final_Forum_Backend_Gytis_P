@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/question/:id/answers", GET_ANSWERS);
 router.post("/question/:id/answers", authUser, POST_ANSWER);
-router.delete("/answer/:id", authUser, DELETE_ANSWER)
+router.delete("/answers/:id", authUser, DELETE_ANSWER)
 
 
 export default router;

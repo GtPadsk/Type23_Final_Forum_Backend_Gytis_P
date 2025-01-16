@@ -20,8 +20,9 @@ const answerSchema = new mongoose.Schema({
         required: true
     },
     question_id: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "question"
     }
 }
     ,
